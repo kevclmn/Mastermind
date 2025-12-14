@@ -26,22 +26,17 @@ while(index!=0){
 
     else if(index==2){
 
-      selectPlayer(&games[nGame],players,nPlayers);
+      if(selectPlayer(&games[nGame],players,nPlayers)==0){
       play(&games[nGame], &players[games[nGame].playerId]);
       players[games[nGame].playerId].nGPlayed++;  
       nGame++;
-      
+      }
+      else  
     
     }
     else if(index==3){
-      int check=123;      //While de control fuera de la función para no tocar lo que hizo el profe
-      while(check!=0){
-        system("clear");
         header_players();          //Cabecero ASCII
-        displayListOfPlayers(players,nPlayers);
-        printf("\nType 0 to exit: ");
-        scanf("%d", &check);
-      }
+        displayListOfPlayers(players,&nPlayers);
 
     }
     else if(index==4){

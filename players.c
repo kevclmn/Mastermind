@@ -140,7 +140,7 @@ struct typeGame play(struct typeGame *game, struct typePlayer *player){
   
 }
 
-struct typeGame selectPlayer(struct typeGame *game, struct typePlayer list_players[],int nPlayers){    //Cambiamos el id del jugador para que se estoree ahí la info. Id=3 luegoal usar loadListOfPlayers[i] i=Id
+int selectPlayer(struct typeGame *game, struct typePlayer list_players[],int nPlayers){    //Cambiamos el id del jugador para que se estoree ahí la info. Id=3 luegoal usar loadListOfPlayers[i] i=Id
   
   int input = 0;                             //Variable para ajustar el input a la posición natural de una lista array 1-> arr[0]
   do{
@@ -148,12 +148,15 @@ struct typeGame selectPlayer(struct typeGame *game, struct typePlayer list_playe
     // displayListOfPlayers(struct typePlayer listP[],int nPlayers)   
     printf("Who is going to play?");
     MyDisplayListOfPlayers(list_players,nPlayers);
-    printf("\nType the Id of the player: ");
+    printf("\nType the Id of the player (0 to exit): ");
     scanf("%d", &input);
+    if(input==0){
+      return 1;   
+    }
 
-  }while(input>nPlayers || input<=0 );
+  }while(input>nPlayers || input<0 );
   game->playerId=input-1;
-  return *game;
+  return 0;
 }
 
 // ****************************************
@@ -231,24 +234,28 @@ void displayListOfGames(struct typeGame listG[],int nGame){
   return;
 }
 
-void displayListOfPlayers(struct typePlayer listP[],int nPlayers){
+void displayListOfPlayers(struct typePlayer listP[],int *nPlayers){
 	int i;
-	printf("\n\nid\tUser       \tScore\tnGames\n");
-	printf("--\t----       \t-----\t------\n");
- 	for (i=0;i<nPlayers;i++){ 
-		printf("%i\t", listP[i].id);
-		printf("%-10s \t", listP[i].name);  
-		printf("%i\t", listP[i].score);
-		printf("%i\n", listP[i].nGPlayed);
-	}
   int check=123;
-  while(check!=0){
+  system("clear");
+
+	while(check!=0){
+    printf("\n\nid\tUser       \tScore\tnGames\n");
+	  printf("--\t----       \t-----\t------\n");
+ 	  for (i=0;i<*nPlayers;i++){ 
+	  	printf("%i\t", listP[i].id);
+		  printf("%-10s \t", listP[i].name);  
+		  printf("%i\t", listP[i].score);
+	  	printf("%i\n", listP[i].nGPlayed);
+	  }
     printf("\n\n0 - Exit\n1 - Add new player\nInput: ");
     scanf("%d",&check);
     if(check==1){
-      AddPlayers(listP,&nPlayers);
+      AddPlayers(listP,nPlayers);
+      return;
     }
   }
+  return; 
 }
 // Modificacion de la del profe para usar en el programa
 void MyDisplayListOfPlayers(struct typePlayer listP[],int nPlayers){
@@ -412,16 +419,22 @@ printf(" ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═
 // ********************************************
 // **** Funciones para inicializar struct *****
 // ********************************************
-
+  
 int AddPlayers(struct typePlayer listP[],int *nPlayer){
   char user[256];
   int verify=123;
-  system("clear");
-  displayListOfPlayers(listP, *nPlayer);
-  printf("\n\nAdd a new user: ");
+  if(*nPlayer==MAX_PLAYERS){
+      while(verify!=0){
+        printf("You have reached the maximum of players\nType 0 to exit: ");
+        scanf("%d",&verify);
+      }
+      return 0;
+  }
+
+  printf("\n\nType the new username: ");
   scanf("%s",user);
   while(verify!=0){
-    
+
     printf("\nIs %s correct?\nExit->0 Yes->1 No->2: ",user);
     scanf("%d",&verify);
     if(verify==0){
@@ -429,11 +442,12 @@ int AddPlayers(struct typePlayer listP[],int *nPlayer){
     }
     if(verify==1){
       strcpy(listP[*nPlayer].name,user);
-      (*nPlayer)++;
+      listP[*nPlayer].id=*nPlayer+1; 
+      *nPlayer=*nPlayer+1;
       return 1;
     }
     if(verify==2){
-      printf("Add a new user: ");
+      printf("Type the new username: ");
       scanf("%s",user);
     }
 

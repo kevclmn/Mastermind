@@ -37,7 +37,7 @@ void generateSecretCode  (struct typeGame *game);
 int verifyCode(struct typeGame game, int *black, int *white);	
 void scanGuess (struct typeGame *game);
 struct typeGame play(struct typeGame *game, struct typePlayer *player);
-struct typeGame selectPlayer(struct typeGame *game, struct typePlayer list_players[],int nPlayers);
+int selectPlayer(struct typeGame *game, struct typePlayer list_players[],int nPlayers);
   
 //FUNCIONES PARA HACER DISPLAY
 void displayBoard (struct typeGame game);
@@ -45,7 +45,7 @@ void displayGame(struct typeGame *game, struct typePlayer *player);
 void displayListOfGames(struct typeGame listG[],int nGame);    
 
     //Estas son todas un pequeño mod de displayListOfPlayers del profe
-void displayListOfPlayers(struct typePlayer listP[],int nPlayers);
+void displayListOfPlayers(struct typePlayer listP[],int *nPlayers);
 void MyDisplayListOfPlayers(struct typePlayer listP[],int nPlayers);  //Essentialy the same as the one made by the teacher. Just does not print score and attempts 
 void displayRankOfPlayers(struct sortedPlayers listP[],int nPlayers); //Uses rank instead of id (It's used in Top players and Players Ranking)
 
@@ -62,4 +62,4 @@ void header_game();
 
 //CARGA DATOS RANDOM EN LOS STRUCT
 void loadListOfGames(struct typeGame listG[], int *nGames);
-void AddPlayers(struct typePlayer listP[],int *nPlayer);  
+int AddPlayers(struct typePlayer listP[],int *nPlayer);  
