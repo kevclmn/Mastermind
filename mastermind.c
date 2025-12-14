@@ -30,9 +30,7 @@ while(index!=0){
       play(&games[nGame], &players[games[nGame].playerId]);
       players[games[nGame].playerId].nGPlayed++;  
       nGame++;
-      }
-      else  
-    
+      }  
     }
     else if(index==3){
         header_players();          //Cabecero ASCII
@@ -49,6 +47,7 @@ while(index!=0){
       system("clear");
     }
 }
+    storePlayesr(players, nPlayers);
     system("exit");
 
 }

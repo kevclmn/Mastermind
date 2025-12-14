@@ -60,6 +60,9 @@ void header_rank();
 void header_top();
 void header_game();
 
-//CARGA DATOS RANDOM EN LOS STRUCT
+//DESCARGA Y CARGA DE DATOS
 void loadListOfGames(struct typeGame listG[], int *nGames);
-int AddPlayers(struct typePlayer listP[],int *nPlayer);  
+int AddPlayers(struct typePlayer listP[],int *nPlayer);
+//void storeGames();
+void storePlayesr(struct typePlayer listP[MAX_PLAYERS], int nPlayers);
+void loadPlayers();

@@ -512,8 +512,17 @@ void loadListOfGames(struct typeGame listG[], int *nGames){
 	} 
 }
 
-
-
+void storePlayesr(struct typePlayer listP[MAX_PLAYERS], int nPlayers){
+  FILE* datafile = fopen("players.txt","w");
+  for(int i=0;i<nPlayers;i++){
+    fprintf(datafile, "%d ",listP[i].id);
+    fprintf(datafile, "%s ",listP[i].name);
+    fprintf(datafile, "%d ",listP[i].score);
+    fprintf(datafile, "%d\n",listP[i].nGPlayed);
+  }
+  fclose(datafile);
+  return;
+}
 // *****************************
 // *** functions not available in the library, local	
 // *****************************
