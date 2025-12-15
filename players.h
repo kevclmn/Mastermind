@@ -64,5 +64,6 @@ void header_game();
 void loadListOfGames(struct typeGame listG[], int *nGames);
 int AddPlayers(struct typePlayer listP[],int *nPlayer);
 //void storeGames();
+int rmPlayers(struct typePlayer listP[],int *nPlayer);
 void storePlayesr(struct typePlayer listP[MAX_PLAYERS], int nPlayers);
-void loadPlayers();
+void loadPlayers(struct typePlayer listP[MAX_PLAYERS],int *nPlayers);

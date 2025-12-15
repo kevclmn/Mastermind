@@ -13,7 +13,8 @@ int nPlayers=0;
 struct typeGame games[MAX_GAMES];
 struct typePlayer players[MAX_PLAYERS];
 struct sortedPlayers ranking[MAX_PLAYERS];
-
+//LOAD SAVED DATA
+loadPlayers(players,&nPlayers);
 while(index!=0){
     system("clear");
     header_mastermind();

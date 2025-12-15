@@ -248,10 +248,15 @@ void displayListOfPlayers(struct typePlayer listP[],int *nPlayers){
 		  printf("%i\t", listP[i].score);
 	  	printf("%i\n", listP[i].nGPlayed);
 	  }
-    printf("\n\n0 - Exit\n1 - Add new player\nInput: ");
+    printf("\n\n0 - Exit\n1 - Add new player\n2- Remove player\nInput: ");
     scanf("%d",&check);
     if(check==1){
       AddPlayers(listP,nPlayers);
+      return;
+    }
+    if(check==2){
+      rmPlayers(listP,nPlayers);
+      loadPlayers(listP,nPlayers);
       return;
     }
   }
@@ -454,8 +459,78 @@ int AddPlayers(struct typePlayer listP[],int *nPlayer){
   }
     return 0;
 }
+void loadPlayers(struct typePlayer listP[MAX_PLAYERS],int *nPlayers){
+  FILE *datafile = fopen("players.txt", "r");
+  int id,score,nGames;
+  char usr[256];
+  id=1;
+  *nPlayers=0;
+  while(fscanf(datafile, "%s %d %d", usr, &score, &nGames) == 3){
+    if(*nPlayers>=MAX_PLAYERS){
+      return; 
+    }
+    listP[*nPlayers].id=id;
+    strcpy(listP[*nPlayers].name,usr);
+    listP[*nPlayers].score=score;
+    listP[*nPlayers].nGPlayed=nGames;
+    (*nPlayers)++;
+    id++;
+  }
+  fclose(datafile);
+  return;
+}
 
+int rmPlayers(struct typePlayer listP[],int *nPlayer){
+  int verify=123;
+  int id;
 
+  printf("\n\nWhich is the id of the player you want to remove: ");
+  scanf("%d",&id);
+  while(verify!=0){
+
+    printf("\nAre you sure you want to remove %s ?\nExit->0 Yes->1 No->2: ",listP[id-1].name);
+    scanf("%d",&verify);
+    if(verify==0){    
+
+    }
+    if(verify==1){
+      int line=1;
+      int score,nGames;
+      char usr[256];
+      FILE *datafile = fopen("players.txt", "r");
+      FILE *temp = fopen("temp.txt", "w");
+      while(fscanf(datafile, "%s %d %d", usr, &score, &nGames) == 3){
+        if(line!=id){
+          fprintf(temp, "%s %d %d\n",usr,score,nGames);    
+        }
+        line++;
+      }
+      fclose(datafile);
+      fclose(temp);
+      remove("players.txt");
+      rename("temp.txt","players.txt");
+      return 1;
+    }
+    if(verify==2){
+      printf("Type the new id: ");
+      scanf("%d",&id);
+    }
+
+  }
+    return 0;
+}
+
+void storePlayesr(struct typePlayer listP[MAX_PLAYERS], int nPlayers){
+
+  FILE* datafile = fopen("players.txt","w");
+  for(int i=0;i<nPlayers;i++){
+    fprintf(datafile, "%s ",listP[i].name);
+    fprintf(datafile, "%d ",listP[i].score);
+    fprintf(datafile, "%d\n",listP[i].nGPlayed);
+  }
+  fclose(datafile);
+  return;
+}
 void loadListOfGames(struct typeGame listG[], int *nGames){
 	int i,j,b,w;
 	int r; // row in the board
@@ -512,17 +587,7 @@ void loadListOfGames(struct typeGame listG[], int *nGames){
 	} 
 }
 
-void storePlayesr(struct typePlayer listP[MAX_PLAYERS], int nPlayers){
-  FILE* datafile = fopen("players.txt","w");
-  for(int i=0;i<nPlayers;i++){
-    fprintf(datafile, "%d ",listP[i].id);
-    fprintf(datafile, "%s ",listP[i].name);
-    fprintf(datafile, "%d ",listP[i].score);
-    fprintf(datafile, "%d\n",listP[i].nGPlayed);
-  }
-  fclose(datafile);
-  return;
-}
+
 // *****************************
 // *** functions not available in the library, local	
 // *****************************
